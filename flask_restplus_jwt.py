@@ -22,13 +22,15 @@ class JWTRestplusManager(JWTManager):
 
 def jwt_required(fn, enable):
 
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        if enable:
-            return jwt_required(fn)(*args, **kwargs)
-        else:
-            return fn(*args, **kwargs)
-    return wrapper
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            if enable:
+                return jwt_required(fn)(*args, **kwargs)
+            else:
+                return fn(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 
