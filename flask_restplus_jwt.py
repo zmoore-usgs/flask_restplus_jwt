@@ -20,7 +20,7 @@ class JWTRestplusManager(JWTManager):
         def handler_invalid_token(error):
             return {'message': error.message}
 
-def jwt_required(fn, enable):
+def jwt_required(enable):
 
     def decorator(fn):
         @wraps(fn)
