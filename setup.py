@@ -40,5 +40,5 @@ setup(name='flask_restplus_jwt',
       test_loader='unittest:TestLoader',
       platforms='any',
       zip_safe=False,
-      py_modules=['flask_restplus_jwt.py']
+      py_modules=['flask_restplus_jwt']
       )
