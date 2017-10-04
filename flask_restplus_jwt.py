@@ -9,6 +9,10 @@ from jwt.exceptions import ExpiredSignatureError, DecodeError, InvalidAudienceEr
 
 
 class JWTRestplusManager(JWTManager):
+    """
+    Extends the JWTManager in Flask_JWT_Simple to include the Flask-Restplus API instance.
+    Includes api error handlers for errors raised by Flask_JWT_Simple
+    """
 
     def __init__(self, api=None, app=None):
         self.api = api
@@ -23,6 +27,11 @@ class JWTRestplusManager(JWTManager):
             return {'message': error.message}
 
 def jwt_required(fn):
+    """
+    Wrapper for the flask_jwt_simple.jwt_required decorator
+    :param fn: Flask Restplus resource view function
+    :return: function
+    """
 
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -32,6 +41,14 @@ def jwt_required(fn):
 
 
 def jwt_role_required(role):
+    """
+    Decorator for Flask Restplu resource view function which authenticates the authorization token and
+    authories the token by matching the role against the role found in the JWT token.
+    Requires the use of JWT_ROLE_CLAIM config variable. This is a function which takes the decoded token and
+    returns the role. In order to authorize, the string returned by that function should match role.
+    :param str role:
+    :return: function
+    """
 
     def decorator(fn):
         @wraps(fn)
