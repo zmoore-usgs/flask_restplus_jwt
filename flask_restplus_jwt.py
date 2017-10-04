@@ -12,9 +12,14 @@ class JWTRestplusManager(JWTManager):
     """
     Extends the JWTManager in Flask_JWT_Simple to include the Flask-Restplus API instance.
     Includes api error handlers for errors raised by Flask_JWT_Simple
+
     """
 
-    def __init__(self, api=None, app=None):
+    def __init__(self, api, app=None):
+        '''
+        :param api: Instance of a flask_restplus Api that has been associated with app
+        :param app: Instance of flask application or blueprint
+        '''
         self.api = api
         super(self.__class__, self).__init__(app)
 
