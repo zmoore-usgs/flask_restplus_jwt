@@ -1,6 +1,9 @@
 # flask_restplus_jwt
 Extension of Flask-JWT-Simple suitable for use with Flask-Restplus
 
+[![Build Status](https://travis-ci.org/USGS-CIDA/flask_restplus_jwt.svg?branch=master)](https://travis-ci.org/USGS-CIDA/flask_restplus_jwt)
+[![Coverage Status](https://coveralls.io/repos/github/USGS-CIDA/flask_restplus_jwt/badge.svg?branch=master)](https://coveralls.io/github/USGS-CIDA/flask_restplus_jwt?branch=master)
+
 The Flask-JWT-Simple documentation should be consulted for configuration information: http://flask-jwt-simple.readthedocs.io/en/latest/
 In addition to the configuration parameters used in Flask-JWT-Simple, this extension adds
 JWT_ROLE_CLAIM. This should be a function which takes a python dictionary representing the 
