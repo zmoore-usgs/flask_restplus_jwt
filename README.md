@@ -19,7 +19,7 @@ from flask_restplus_jwt import JWTRestplusManager, jwt_required, jwt_role_requir
 
 application = Flask(__name__)
 
-application.config['JWT_SECRET_KEY'] = 'secret'
+application.config['JWT_SECRET_KEY'] = 'secret_key'
 # You can also use the JWT_PUBLIC_KEY and set the appropriate JWT_ALGORITHM for the key.
 # If needed you can set the expected audience claim with JWT_DECODE_AUDIENCE
 
@@ -27,10 +27,20 @@ def get_role (dict):
     return dict['role']
 # JWT_ROLE_CLAIM is used by the flask_restplus_jwt extension to define the function which
 # will retrieve the role from the decoded jwt token when using the jwt_role_required decorator.
-application.config['JWT_ROLE_CLAIM'] = get_role 
+application.config['JWT_ROLE_CLAIM'] = get_role
+
+# This will add the Authorize button to the swagger docs
+authorizations = {
+    'apikey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
 
 api = Api(application,
-          doc='/api')
+          doc='/api',
+          security='apikey', authorizations=authorizations)
 
 
 # Setup the Flask-JWT-Simple extension
@@ -40,7 +50,8 @@ jwt = JWTRestplusManager(api, application)
 @api.route('/endpoint')
 class TestEndpoint(Resource):
 
-    @api.header('Authorization', 'JWT token', required=True)
+    @api.response(401, 'Not authorized')
+    @api.response(422, 'Invalid authorization token')
     @jwt_required
     def get(self):
         return "Successful"
@@ -48,9 +59,13 @@ class TestEndpoint(Resource):
 @api.route('/role_endpoint')
 class TestRoleProtectedEndPoint(Resource):
 
-    @api.header('Authorization', 'JWT token', required=True)
+    @api.response(401, 'Not authorized')
+    @api.response(422, 'Invalid authorization token')
     @jwt_role_required('admin')
     def get(self):
         return 'Successful'
 
+
+if __name__ == '__main__':
+    application.run()
 ```
