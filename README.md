@@ -9,6 +9,11 @@ In addition to the configuration parameters used in Flask-JWT-Simple, this exten
 JWT_ROLE_CLAIM. This should be a function which takes a python dictionary representing the 
 decoded token and returns the role string.
 
+You can add this module as a requirement to your requirements.txt as follows:
+```
+git+https://github.com/USGS-CIDA/flask_restplus_jwt
+```
+
 Below is an simple example of how to use the extension.
 
 ```python
