@@ -45,7 +45,7 @@ def jwt_required(fn):
     return wrapper
 
 
-def jwt_role_required(role):
+def jwt_role_required(allowed_roles):
     """
     Decorator for Flask Restplu resource view function which authenticates the authorization token and
     authories the token by matching the role against the role found in the JWT token.
@@ -60,12 +60,10 @@ def jwt_role_required(role):
         def wrapper(*args, **kwargs):
             response = simple_jwt_required(fn)(*args, **kwargs)
             token = get_jwt()
-            try:
-                if current_app.config['JWT_ROLE_CLAIM'](token) == role:
-                    return response
-                else:
-                    raise NoAuthorizationError('Does not have required role')
-            except KeyError:
+            roles_in_token = current_app.config['JWT_ROLE_CLAIM'](token)
+            if [role for role in roles_in_token if role in allowed_roles]:
+                return response
+            else:
                 raise NoAuthorizationError('Does not have required role')
         return wrapper
     return decorator
