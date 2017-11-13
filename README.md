@@ -33,11 +33,12 @@ application.config['JWT_SECRET_KEY'] = 'secret_key'
 # You can also use the JWT_PUBLIC_KEY and set the appropriate JWT_ALGORITHM for the key.
 # If needed you can set the expected audience claim with JWT_DECODE_AUDIENCE
 
-def get_role (dict):
-    return dict['role']
+def get_roles (dict):
+    return dict['roles']
 # JWT_ROLE_CLAIM is used by the flask_restplus_jwt extension to define the function which
-# will retrieve the role from the decoded jwt token when using the jwt_role_required decorator.
-application.config['JWT_ROLE_CLAIM'] = get_role
+# will retrieve the roles from the decoded jwt token when using the jwt_role_required decorator.
+# The function should return a list of strings
+application.config['JWT_ROLE_CLAIM'] = get_roles
 
 # This will add the Authorize button to the swagger docs
 authorizations = {

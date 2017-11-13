@@ -61,7 +61,7 @@ def jwt_role_required(role):
             response = simple_jwt_required(fn)(*args, **kwargs)
             token = get_jwt()
             try:
-                if current_app.config['JWT_ROLE_CLAIM'](token) == role:
+                if role in current_app.config['JWT_ROLE_CLAIM'](token):
                     return response
                 else:
                     raise NoAuthorizationError('Does not have required role')
