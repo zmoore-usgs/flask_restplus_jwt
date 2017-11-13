@@ -59,7 +59,7 @@ class JWTRoleRequiredTest(TestCase):
         self.application.config['JWT_SECRET_KEY'] = 'good_secret'
 
         def get_roles(dict):
-            return dict['roles']
+            return dict.get('roles', [])
         self.application.config['JWT_ROLE_CLAIM'] = get_roles
 
         self.application.testing = True
@@ -69,7 +69,7 @@ class JWTRoleRequiredTest(TestCase):
         @self.api.route('/endpoint')
         class TestEndpoint(Resource):
 
-            @jwt_role_required('admin')
+            @jwt_role_required(['admin', 'superuser'])
             def get(self):
                 return 'Successful'
 
@@ -94,7 +94,7 @@ class JWTRoleRequiredTest(TestCase):
 
 
     def test_good_role(self):
-        good_token = jwt.encode({'some': 'payload', 'roles': ['admin', 'dbadmin']}, self.application.config['JWT_SECRET_KEY'])
+        good_token = jwt.encode({'some': 'payload', 'roles': ['admin', 'dbadmin', 'worker']}, self.application.config['JWT_SECRET_KEY'])
         response = self.app_client.get('/endpoint',
                                        headers={'Authorization': 'Bearer {0}'.format(good_token.decode('utf-8'))}
                                        )
