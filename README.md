@@ -14,6 +14,11 @@ You can add this module as a requirement to your requirements.txt as follows:
 git+https://github.com/USGS-CIDA/flask_restplus_jwt
 ```
 
+This above will not work if building an artifact that includes flask_restplus_jwt. In that cause, download the file, 
+flask_resplus_jwt.py into your project. You will need to make sure that you have all of the requirements in requirements.txt.
+Please note that in either case, you may need to include the dependency for cryptography 
+(see https://pyjwt.readthedocs.io/en/latest/installation.html#cryptographic-dependencies-optional)
+
 Below is an simple example of how to use the extension.
 
 ```python
