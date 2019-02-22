@@ -1,7 +1,7 @@
 
 from unittest import TestCase
 
-from flask import Flask, jsonify
+from flask import Flask
 from flask_restplus import Api, Resource
 from flask_restplus_jwt import JWTRestplusManager, jwt_required, jwt_role_required
 
